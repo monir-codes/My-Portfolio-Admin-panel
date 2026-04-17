@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router/dom";
 import AdminLayout from './layouts/AdminLayout';
 import Home from './components/HomePage/Home';
 import './index.css';
+import Projects from './components/ProjectsControl/Projects';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>
+      },
+      {
+        path: "/my-projects",
+        element: <Projects></Projects>
       }
     ]
   }
