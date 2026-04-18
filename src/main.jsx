@@ -7,6 +7,7 @@ import AdminLayout from './layouts/AdminLayout';
 import Home from './components/HomePage/Home';
 import './index.css';
 import Projects from './components/ProjectsControl/Projects';
+import Login from './components/Login/Login';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/my-projects",
         element: <Projects></Projects>
+      },
+      {
+        path: "/admin-login",
+        element: <Login></Login>
       }
     ]
   }
