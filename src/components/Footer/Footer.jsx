@@ -1,12 +1,12 @@
-import React, { memo, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, memo } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import {  Cpu, ExternalLink } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   // Logic to get dynamic year and random build hash for that "Industrial" feel
   const currentYear = new Date().getFullYear();
-  const buildHash = useMemo(() => Math.random().toString(36).substring(7).toUpperCase(), []);
+  const [buildHash] = useState(() => Math.random().toString(36).substring(7).toUpperCase());
 
   return (
     <footer className="relative mt-auto overflow-hidden rounded-[2.5rem] bg-[#0a0f1e]/40 backdrop-blur-3xl border border-white/5 p-8 transition-all duration-500">

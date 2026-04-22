@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Outlet, useLocation } from "react-router";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Navbar from "../components/Navbar/Navbar";
@@ -12,8 +12,11 @@ const AdminLayout = () => {
   // Route switch hole auto-scroll to top & close mobile sidebar
   useEffect(() => {
     window.scrollTo(0, 0);
-    setSidebarOpen(false);
   }, [pathname]);
+  
+  const handleSidebarClose = () => {
+    setSidebarOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-100 font-sans selection:bg-emerald-500/30 overflow-x-hidden">
@@ -32,7 +35,7 @@ const AdminLayout = () => {
           fixed lg:sticky lg:top-0 h-screen z-[200] transition-transform duration-500 ease-in-out
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}>
-          <Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
+          <Sidebar isOpen={isSidebarOpen} setIsOpen={handleSidebarClose} />
         </div>
 
         {/* MAIN VIEWPORT */}

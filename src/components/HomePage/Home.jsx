@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, memo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, memo } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { 
   Database, Send, Code2, Globe, 
   Terminal as TerminalIcon, Activity, Zap, HardDrive, 

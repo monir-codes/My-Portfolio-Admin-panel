@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { NavLink } from "react-router";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard, Database, Code2,
   MessageSquare, Settings, X,
@@ -11,9 +11,9 @@ import {
 const MENU_ITEMS = [
   { label: "Dashboard", path: "/", icon: <LayoutDashboard size={18} /> },
   { label: "Project Vault", path: "/my-projects", icon: <Database size={18} /> },
-  { label: "Skill Matrix", path: "/skills", icon: <Code2 size={18} /> },
-  { label: "Inquiries", path: "/messages", icon: <MessageSquare size={18} /> },
-  { label: "Configuration", path: "/settings", icon: <Settings size={18} /> },
+  { label: "Skill Matrix", path: "/", icon: <Code2 size={18} /> },
+  { label: "Inquiries", path: "/", icon: <MessageSquare size={18} /> },
+  { label: "Configuration", path: "/", icon: <Settings size={18} /> },
 ];
 
 const Sidebar = ({ isOpen, setIsOpen }) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { 
   Menu, Bell, Search, LogOut, Settings, 
   ShieldCheck, Mail, Cpu, Globe, Zap
@@ -7,7 +7,6 @@ import {
 
 const Navbar = ({ onMenuOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [sysTime, setSysTime] = useState(new Date().toLocaleTimeString());
 
   // Real-time system clock functionality

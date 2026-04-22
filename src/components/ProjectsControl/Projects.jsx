@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, memo, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { 
   Plus, Edit3, Trash2, RefreshCw, X, Eye, 
   Wifi, WifiOff, ExternalLink, Globe,
@@ -107,7 +107,7 @@ const Projects = () => {
       const res = await fetch(`${API_BASE_URL}?t=${Date.now()}`);
       const data = await res.json();
       setProjects(data);
-    } catch (err) { 
+    } catch { 
       if (!isSilent) Toast.fire({ icon: 'error', title: 'Network Link Failed' }); 
     } finally { setLoading(false); }
   }, [Toast]);
@@ -137,7 +137,7 @@ const Projects = () => {
         fetchProjects(); 
         setIsModalOpen(false); 
       }
-    } catch (err) { Toast.fire({ icon: 'error', title: 'Commit Failed' }); }
+    } catch { Toast.fire({ icon: 'error', title: 'Commit Failed' }); }
     finally { setLoading(false); }
   };
 
