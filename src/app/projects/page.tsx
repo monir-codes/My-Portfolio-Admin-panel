@@ -22,8 +22,8 @@ export default function ProjectsPage() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [tech, setTech] = useState("");
-  const [link, setLink] = useState("");
-  const [github, setGithub] = useState("");
+  const [live, setLive] = useState("");
+  const [repo, setRepo] = useState("");
   const [image, setImage] = useState("");
 
   const fetchProjects = () => {
@@ -49,8 +49,8 @@ export default function ProjectsPage() {
     setTitle("");
     setDesc("");
     setTech("");
-    setLink("");
-    setGithub("");
+    setLive("");
+    setRepo("");
     setImage("");
     setEditingId(null);
     setShowForm(false);
@@ -60,8 +60,8 @@ export default function ProjectsPage() {
     setTitle(p.title || "");
     setDesc(p.desc || "");
     setTech(p.tech?.join(", ") || "");
-    setLink(p.link || "");
-    setGithub(p.github || "");
+    setLive(p.live || p.link || "");
+    setRepo(p.repo || p.github || "");
     setImage(p.image || "");
     setEditingId(p._id);
     setShowForm(true);
@@ -131,8 +131,8 @@ export default function ProjectsPage() {
       title,
       desc,
       tech: tech.split(",").map(t => t.trim()).filter(Boolean),
-      link,
-      github,
+      live,
+      repo,
       image,
     };
 
@@ -317,11 +317,11 @@ export default function ProjectsPage() {
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-white/70">Live Link</label>
-                <input value={link} onChange={e=>setLink(e.target.value)} type="url" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-all focus:bg-white/10" placeholder="https://" />
+                <input value={live} onChange={e=>setLive(e.target.value)} type="url" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-all focus:bg-white/10" placeholder="https://" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-white/70">GitHub Link</label>
-                <input value={github} onChange={e=>setGithub(e.target.value)} type="url" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-all focus:bg-white/10" placeholder="https://github.com/..." />
+                <input value={repo} onChange={e=>setRepo(e.target.value)} type="url" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-all focus:bg-white/10" placeholder="https://github.com/..." />
               </div>
               
               <div className="md:col-span-2 flex justify-end mt-4 pt-6 border-t border-white/10">

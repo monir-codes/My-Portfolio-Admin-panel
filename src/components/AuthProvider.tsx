@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
       
       // Handle redirect if not logged in
-      if (!currentUser && pathname !== "/login") {
+      if (!currentUser && pathname !== "/login" && pathname !== "/setup-admin") {
         router.push("/login");
       }
     });
