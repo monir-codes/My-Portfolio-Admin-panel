@@ -58,12 +58,20 @@ export default function SkillsPage() {
     try {
       if (editingId) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills/${editingId}`, {
-          method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
+          method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem('access-token')}`
+        }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Skill updated!"); fetchSkills(); resetForm(); }
       } else {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills`, {
-          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
+          method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem('access-token')}`
+        }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Skill added!"); fetchSkills(); resetForm(); }
       }
@@ -77,7 +85,7 @@ export default function SkillsPage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills/${id}`, { method: "DELETE" });
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills/${id}`, { method: "DELETE", headers: { authorization: `Bearer ${localStorage.getItem('access-token')}` } });
           if (res.ok) { toast.success("Deleted!"); fetchSkills(); }
         } catch (error) { toast.error("Failed to delete"); }
       }

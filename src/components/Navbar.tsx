@@ -1,13 +1,20 @@
 "use client";
 
 import { useAuth } from "./AuthProvider";
+import { Menu, X } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMobileMenuOpen: boolean, setIsMobileMenuOpen: (val: boolean) => void }) {
   const { user } = useAuth();
 
   return (
     <header className="h-20 glass-panel border-b border-x-0 border-t-0 flex items-center justify-between px-6 md:px-8">
-      <div className="md:hidden">
+      <div className="md:hidden flex items-center gap-4">
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="text-white hover:text-primary transition"
+        >
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
         <h2 className="text-xl font-black tracking-tighter">
           ADMIN<span className="text-primary">.</span>
         </h2>

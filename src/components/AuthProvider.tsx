@@ -27,7 +27,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser && currentUser.email) {
+        // Fetch JWT from our server
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/jwt`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: currentUser.email })
+          });
+          const data = await res.json();
+          if (data.token) {
+            localStorage.setItem('access-token', data.token);
+          }
+        } catch (error) {
+          console.error("JWT fetch error", error);
+        }
+      } else {
+        localStorage.removeItem('access-token');
+      }
+
       setUser(currentUser);
       setLoading(false);
       
@@ -42,6 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     await firebaseSignOut(auth);
+    localStorage.removeItem('access-token');
     router.push("/login");
   };
 

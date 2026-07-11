@@ -86,7 +86,11 @@ export default function HeroAboutPage() {
     setSavingHero(true);
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/hero`, {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(hero)
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem('access-token')}`
+        }, body: JSON.stringify(hero)
       });
       if (res.ok) toast.success("Hero updated successfully!");
       else throw new Error("Failed to save");
@@ -98,7 +102,11 @@ export default function HeroAboutPage() {
     setSavingAbout(true);
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/about`, {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(about)
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem('access-token')}`
+        }, body: JSON.stringify(about)
       });
       if (res.ok) toast.success("About updated successfully!");
       else throw new Error("Failed to save");
