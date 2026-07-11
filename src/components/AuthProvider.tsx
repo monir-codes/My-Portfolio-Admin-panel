@@ -1,0 +1,61 @@
+"use client";
+
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { onAuthStateChanged, User, signOut as firebaseSignOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter, usePathname } from "next/navigation";
+import { Loader } from "lucide-react";
+
+interface AuthContextType {
+  user: User | null;
+  loading: boolean;
+  logout: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  loading: true,
+  logout: async () => {},
+});
+
+export const useAuth = () => useContext(AuthContext);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+      
+      // Handle redirect if not logged in
+      if (!currentUser && pathname !== "/login") {
+        router.push("/login");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [pathname, router]);
+
+  const logout = async () => {
+    await firebaseSignOut(auth);
+    router.push("/login");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <Loader className="w-10 h-10 text-[#00FF00] animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, loading, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
