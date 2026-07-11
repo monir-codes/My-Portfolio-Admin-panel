@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "./AuthProvider";
-import { LogOut, LayoutDashboard, FolderKanban } from "lucide-react";
+import { LogOut, LayoutDashboard, FolderKanban, User, Code2, Briefcase, Award } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,6 +12,10 @@ export default function Sidebar() {
   const navItems = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
     { name: "Projects", href: "/projects", icon: FolderKanban },
+    { name: "Hero & About", href: "/hero-about", icon: User },
+    { name: "Skills", href: "/skills", icon: Code2 },
+    { name: "Experience", href: "/experience", icon: Briefcase },
+    { name: "Certificates", href: "/certificates", icon: Award },
   ];
 
   return (
