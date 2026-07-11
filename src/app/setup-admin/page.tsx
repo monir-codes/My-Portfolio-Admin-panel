@@ -5,14 +5,29 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Loader2, Lock, Mail, ShieldAlert } from "lucide-react";
-import { motion } from "framer-motion";
+import { Loader2, Lock, Mail, ShieldAlert, KeyRound } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function SetupAdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  // Gatekeeper state
+  const [isVerified, setIsVerified] = useState(false);
+  const [securityAnswer, setSecurityAnswer] = useState("");
+
+  const handleVerification = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (securityAnswer === "Mondal King") {
+      setIsVerified(true);
+      toast.success("Identity Verified!");
+    } else {
+      toast.error("Access Denied: Incorrect Identity");
+      setSecurityAnswer("");
+    }
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,63 +54,112 @@ export default function SetupAdminPage() {
       <div className="absolute top-1/4 -right-20 w-72 h-72 bg-purple-500/20 rounded-full blur-[120px]" />
       <div className="absolute bottom-1/4 -left-20 w-72 h-72 bg-red-500/20 rounded-full blur-[120px]" />
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md p-8 glass-panel rounded-3xl relative z-10 border border-red-500/30 shadow-[0_0_50px_rgba(255,0,0,0.05)]"
-      >
-        <div className="text-center mb-10 flex flex-col items-center">
-          <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4 text-red-500">
-            <ShieldAlert size={32} />
-          </div>
-          <h1 className="text-3xl font-black tracking-tighter mb-2">
-            ADMIN SETUP
-          </h1>
-          <p className="text-white/50 text-xs tracking-widest uppercase text-balance">
-            Create your master administrator account. Only do this once. Delete this page afterwards.
-          </p>
-        </div>
-
-        <form onSubmit={handleRegister} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-semibold tracking-wide text-white/70">Admin Email</label>
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-red-500/50 focus:bg-white/10 transition-all"
-                placeholder="admin@yourdomain.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-semibold tracking-wide text-white/70">Secure Password</label>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-red-500/50 focus:bg-white/10 transition-all"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-red-500 text-white font-bold tracking-widest uppercase py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-red-600 transition-all disabled:opacity-70 shadow-[0_0_20px_rgba(255,0,0,0.3)]"
+      <AnimatePresence mode="wait">
+        {!isVerified ? (
+          <motion.div 
+            key="gatekeeper"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+            className="w-full max-w-md p-8 glass-panel rounded-3xl relative z-10 border border-primary/30 shadow-[0_0_50px_rgba(0,255,0,0.05)]"
           >
-            {loading ? <Loader2 className="animate-spin" /> : "Create Account"}
-          </button>
-        </form>
-      </motion.div>
+            <div className="text-center mb-10 flex flex-col items-center">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 text-primary">
+                <KeyRound size={32} />
+              </div>
+              <h1 className="text-3xl font-black tracking-tighter mb-2">
+                RESTRICTED AREA
+              </h1>
+              <p className="text-white/50 text-xs tracking-widest uppercase text-balance">
+                Only the creator can access this page. Identify yourself.
+              </p>
+            </div>
+
+            <form onSubmit={handleVerification} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold tracking-wide text-white/70">Who are you?</label>
+                <div className="relative">
+                  <ShieldAlert className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+                  <input
+                    type="text"
+                    value={securityAnswer}
+                    onChange={(e) => setSecurityAnswer(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all"
+                    placeholder="Enter identity..."
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-primary text-black font-bold tracking-widest uppercase py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-[#00cc00] transition-all shadow-[0_0_20px_rgba(0,255,0,0.2)]"
+              >
+                Verify Identity
+              </button>
+            </form>
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="setup"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full max-w-md p-8 glass-panel rounded-3xl relative z-10 border border-red-500/30 shadow-[0_0_50px_rgba(255,0,0,0.05)]"
+          >
+            <div className="text-center mb-10 flex flex-col items-center">
+              <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4 text-red-500">
+                <ShieldAlert size={32} />
+              </div>
+              <h1 className="text-3xl font-black tracking-tighter mb-2">
+                ADMIN SETUP
+              </h1>
+              <p className="text-white/50 text-xs tracking-widest uppercase text-balance">
+                Identity verified. Create your master administrator account.
+              </p>
+            </div>
+
+            <form onSubmit={handleRegister} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold tracking-wide text-white/70">Admin Email</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-red-500/50 focus:bg-white/10 transition-all"
+                    placeholder="admin@yourdomain.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold tracking-wide text-white/70">Secure Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-red-500/50 focus:bg-white/10 transition-all"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-red-500 text-white font-bold tracking-widest uppercase py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-red-600 transition-all disabled:opacity-70 shadow-[0_0_20px_rgba(255,0,0,0.3)]"
+              >
+                {loading ? <Loader2 className="animate-spin" /> : "Create Account"}
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
