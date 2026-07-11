@@ -24,7 +24,7 @@ export default function SkillsPage() {
 
   const fetchSkills = () => {
     setLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills`)
       .then((res) => res.json())
       .then((data) => {
         setSkills(data);
@@ -57,12 +57,12 @@ export default function SkillsPage() {
     const data = { name, level, category, icon };
     try {
       if (editingId) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills/${editingId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills/${editingId}`, {
           method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Skill updated!"); fetchSkills(); resetForm(); }
       } else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills`, {
           method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Skill added!"); fetchSkills(); resetForm(); }
@@ -77,7 +77,7 @@ export default function SkillsPage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills/${id}`, { method: "DELETE" });
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/skills/${id}`, { method: "DELETE" });
           if (res.ok) { toast.success("Deleted!"); fetchSkills(); }
         } catch (error) { toast.error("Failed to delete"); }
       }

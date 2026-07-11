@@ -23,7 +23,7 @@ export default function CertificatesPage() {
 
   const fetchCertificates = () => {
     setLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/certificates`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates`)
       .then((res) => res.json())
       .then((data) => { setCertificates(data); setLoading(false); })
       .catch(() => { toast.error("Failed to fetch certificates"); setLoading(false); });
@@ -48,12 +48,12 @@ export default function CertificatesPage() {
     const data = { title, issuer, date, link, image };
     try {
       if (editingId) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/certificates/${editingId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates/${editingId}`, {
           method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Certificate updated!"); fetchCertificates(); resetForm(); }
       } else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/certificates`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates`, {
           method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Certificate added!"); fetchCertificates(); resetForm(); }
@@ -68,7 +68,7 @@ export default function CertificatesPage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/certificates/${id}`, { method: "DELETE" });
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates/${id}`, { method: "DELETE" });
           if (res.ok) { toast.success("Deleted!"); fetchCertificates(); }
         } catch (error) { toast.error("Failed to delete"); }
       }

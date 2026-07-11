@@ -28,7 +28,7 @@ export default function ProjectsPage() {
 
   const fetchProjects = () => {
     setLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-projects`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/my-projects`)
       .then((res) => res.json())
       .then((data) => {
         setProjects(data);
@@ -138,7 +138,7 @@ export default function ProjectsPage() {
 
     try {
       if (editingId) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-projects/${editingId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/my-projects/${editingId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(projectData),
@@ -151,7 +151,7 @@ export default function ProjectsPage() {
           throw new Error("Failed to update");
         }
       } else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-projects`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/my-projects`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(projectData),
@@ -189,7 +189,7 @@ export default function ProjectsPage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-projects/${id}`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/my-projects/${id}`, {
             method: "DELETE",
           });
           if (res.ok) {

@@ -36,8 +36,8 @@ export default function HeroAboutPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/hero`).then(res => res.json()),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/about`).then(res => res.json())
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/hero`).then(res => res.json()),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/about`).then(res => res.json())
     ]).then(([heroData, aboutData]) => {
       if (Object.keys(heroData).length > 0) setHero(heroData);
       if (Object.keys(aboutData).length > 0) setAbout(aboutData);
@@ -85,7 +85,7 @@ export default function HeroAboutPage() {
   const saveHero = async () => {
     setSavingHero(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/hero`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/hero`, {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(hero)
       });
       if (res.ok) toast.success("Hero updated successfully!");
@@ -97,7 +97,7 @@ export default function HeroAboutPage() {
   const saveAbout = async () => {
     setSavingAbout(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/about`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/about`, {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(about)
       });
       if (res.ok) toast.success("About updated successfully!");

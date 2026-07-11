@@ -23,7 +23,7 @@ export default function ExperiencePage() {
 
   const fetchExperiences = () => {
     setLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/experience`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/experience`)
       .then((res) => res.json())
       .then((data) => { setExperiences(data); setLoading(false); })
       .catch(() => { toast.error("Failed to fetch experiences"); setLoading(false); });
@@ -52,12 +52,12 @@ export default function ExperiencePage() {
     };
     try {
       if (editingId) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/experience/${editingId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/experience/${editingId}`, {
           method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Experience updated!"); fetchExperiences(); resetForm(); }
       } else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/experience`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/experience`, {
           method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Experience added!"); fetchExperiences(); resetForm(); }
@@ -72,7 +72,7 @@ export default function ExperiencePage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/experience/${id}`, { method: "DELETE" });
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/experience/${id}`, { method: "DELETE" });
           if (res.ok) { toast.success("Deleted!"); fetchExperiences(); }
         } catch (error) { toast.error("Failed to delete"); }
       }
