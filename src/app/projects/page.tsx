@@ -139,11 +139,7 @@ export default function ProjectsPage() {
     try {
       if (editingId) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/my-projects/${editingId}`, {
-          method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem('access-token')}`
-        },
+          method: "PATCH", headers: { "Content-Type": "application/json" },
           body: JSON.stringify(projectData),
         });
         if (res.ok) {
@@ -155,11 +151,7 @@ export default function ProjectsPage() {
         }
       } else {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/my-projects`, {
-          method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem('access-token')}`
-        },
+          method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify(projectData),
         });
         if (res.ok) {

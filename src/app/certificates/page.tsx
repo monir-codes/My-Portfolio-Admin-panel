@@ -49,20 +49,12 @@ export default function CertificatesPage() {
     try {
       if (editingId) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates/${editingId}`, {
-          method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem('access-token')}`
-        }, body: JSON.stringify(data),
+          method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Certificate updated!"); fetchCertificates(); resetForm(); }
       } else {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates`, {
-          method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem('access-token')}`
-        }, body: JSON.stringify(data),
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
         });
         if (res.ok) { toast.success("Certificate added!"); fetchCertificates(); resetForm(); }
       }
@@ -76,7 +68,7 @@ export default function CertificatesPage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates/${id}`, { method: "DELETE", headers: { authorization: `Bearer ${localStorage.getItem('access-token')}` } });
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates/${id}`, { method: "DELETE" });
           if (res.ok) { toast.success("Deleted!"); fetchCertificates(); }
         } catch (error) { toast.error("Failed to delete"); }
       }
