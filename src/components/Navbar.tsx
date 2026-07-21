@@ -7,8 +7,8 @@ export default function Navbar({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMo
   const { user } = useAuth();
 
   return (
-    <header className="h-20 glass-panel border-b border-x-0 border-t-0 flex items-center justify-between px-6 md:px-8">
-      <div className="md:hidden flex items-center gap-4">
+    <header className="h-20 shrink-0 glass-panel border-b border-x-0 border-t-0 flex items-center justify-between px-6 lg:px-8">
+      <div className="lg:hidden flex items-center gap-4">
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="text-white hover:text-primary transition"
@@ -20,7 +20,7 @@ export default function Navbar({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMo
         </h2>
       </div>
       
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <h3 className="text-white/50 text-sm uppercase tracking-widest font-semibold">
           Overview
         </h3>

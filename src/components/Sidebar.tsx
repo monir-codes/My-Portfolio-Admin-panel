@@ -23,22 +23,22 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }: { isM
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsMobileMenuOpen && setIsMobileMenuOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside className={`w-64 glass-panel border-r border-y-0 border-l-0 flex flex-col h-full shrink-0
-        fixed md:static inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out
-        ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+        fixed lg:static inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out
+        ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
       `}>
         <div className="p-6 border-b border-white/10 flex justify-between items-center">
           <h2 className="text-2xl font-black tracking-tighter">
             ADMIN<span className="text-primary">.</span>
           </h2>
           {isMobileMenuOpen && (
-            <button onClick={() => setIsMobileMenuOpen && setIsMobileMenuOpen(false)} className="md:hidden text-white/50 hover:text-white">
+            <button onClick={() => setIsMobileMenuOpen && setIsMobileMenuOpen(false)} className="lg:hidden text-white/50 hover:text-white">
               <X size={24} />
             </button>
           )}
