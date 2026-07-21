@@ -35,8 +35,8 @@ export default function ProjectsPage() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
-        toast.error("Failed to fetch projects");
+        console.error("Fetch error:", err);
+        toast.error(`Failed to fetch projects: ${err.message || err.toString()}`);
         setLoading(false);
       });
   };

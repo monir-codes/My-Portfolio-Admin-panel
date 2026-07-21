@@ -25,8 +25,12 @@ export default function CertificatesPage() {
     setLoading(true);
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://portfolio-server-ten-fawn.vercel.app"}/api/certificates`)
       .then((res) => res.json())
-      .then((data) => { setCertificates(data); setLoading(false); })
-      .catch(() => { toast.error("Failed to fetch certificates"); setLoading(false); });
+      .then((data) => { setCertificates(data); setLoading(false);      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(`Failed to fetch certificates: ${err.message || err.toString()}`);
+        setLoading(false);
+      });
   };
 
   useEffect(() => { fetchCertificates(); }, []);
@@ -58,7 +62,7 @@ export default function CertificatesPage() {
         });
         if (res.ok) { toast.success("Certificate added!"); fetchCertificates(); resetForm(); }
       }
-    } catch (error) { toast.error("Error saving certificate"); }
+    } catch (error: any) { toast.error(`Error saving certificate: ${error.message}`); }
     finally { setFormLoading(false); }
   };
 
